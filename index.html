@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今展科技 (Arlitech) SEO/GEO RFP V2.5 - Static Hero Edition</title>
+    
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(15, 23, 42, 0.08);
+            --accent-blue: #2563eb;
+            --page-bg: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei UI", "Microsoft JhengHei", "Inter", "Noto Sans TC", sans-serif;
+            background-color: var(--page-bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- 進階磨砂玻璃質感 (Bright Mode) --- */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        /* --- 手電筒光暈效果 (Bright Mode) --- */
+        #flashlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.08) 0%, transparent 40%);
+            z-index: 9999;
+            display: none;
+        }
+
+        /* --- Logo Styling --- */
+        .cis-logo {
+            height: 44px; 
+            width: auto;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cis-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- 無限跑馬燈 --- */
+        .marquee-wrapper {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .marquee-content {
+            display: flex;
+            gap: 2rem;
+            animation: marquee 40s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- Sonar 聲納脈衝 --- */
+        .sonar-pulse {
+            position: relative;
+        }
+        .sonar-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent-blue);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        /* 平滑滾動 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 隱藏滾動條但保持功能 */
+        ::-webkit-scrollbar { display: none; }
+        
+        /* 漸層文字動畫 */
+        .text-gradient-animate {
+            background-size: 200% auto;
+            animation: textShine 4s linear infinite;
+        }
+        @keyframes textShine {
+            to { background-position: 200% center; }
+        }
+
+        /* Modal 專用細緻滾動條 */
+        .custom-scrollbar::-webkit-scrollbar {
+            display: block;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* --- Dark Mode Theme Mapping --- */
+        html.dark body { background-color: #020617; color: #f8fafc; }
+        html.dark .bg-white { background-color: #0f172a; } 
+        html.dark .bg-slate-50 { background-color: #020617; } 
+        html.dark .bg-slate-100 { background-color: #1e293b; } 
+        html.dark .bg-slate-900 { background-color: #0f172a; }
+        
+        html.dark .text-slate-900, html.dark .text-slate-800 { color: #f8fafc; }
+        html.dark .text-slate-700 { color: #e2e8f0; }
+        html.dark .text-slate-600 { color: #94a3b8; }
+        html.dark .text-slate-500 { color: #64748b; }
+        html.dark .text-slate-400 { color: #475569; }
+        
+        html.dark .border-slate-100 { border-color: #1e293b; } 
+        html.dark .border-slate-200 { border-color: #334155; } 
+        
+        html.dark .glass-panel {
+            background: rgba(30, 41, 59, 0.7); 
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        
+        html.dark .cis-logo { filter: brightness(0) invert(1); }
+        html.dark .marquee-content { color: #1e293b; }
+        html.dark .modal-content { background-color: #0f172a; border: 1px solid #1e293b; }
+        html.dark .bg-white\/80 { background-color: rgba(15, 23, 42, 0.8); }
+        html.dark .bg-white\/90 { background-color: rgba(15, 23, 42, 0.9); }
+        
+        /* Interactive element hover overrides for dark mode */
+        html.dark .hover\:bg-white:hover { background-color: #1e293b; }
+        html.dark .hover\:bg-slate-50:hover { background-color: #1e293b; }
+        html.dark .hover\:bg-slate-100:hover { background-color: #334155; }
+    </style>
+</head>
+<body class="selection:bg-blue-600 selection:text-white transition-colors duration-300">
+
+    <div id="flashlight"></div>
+
+    <!-- Header (Redesigned based on UI reference) -->
+    <header class="fixed top-0 w-full z-[100] px-4 py-4 md:py-6 transition-all duration-300" id="main-header">
+        <div class="max-w-7xl mx-auto flex items-center justify-between glass-panel px-6 py-3 bg-white/90 rounded-full shadow-lg shadow-slate-200/50 border border-slate-200/80">
+            <div class="flex items-center space-x-4">
+                <img src="https://upload.cc/i1/2026/01/29/BauOeN.png" alt="Arlitech CIS Logo" class="cis-logo h-8 md:h-10">
+                <div class="hidden sm:block border-l border-slate-300 pl-4">
+                    <span class="font-black text-lg md:text-xl tracking-tighter uppercase block leading-none text-slate-900">Arlitech</span>
+                    <span class="text-[9px] text-blue-600 font-bold uppercase tracking-widest mt-0.5 block">Digital RFP V2.5</span>
+                </div>
+            </div>
+            
+            <nav class="hidden lg:flex space-x-10 text-[13px] font-bold tracking-widest text-slate-500">
+                <a href="#hero" class="hover:text-blue-600 transition-colors">概述</a>
+                <a href="#benefits" class="hover:text-blue-600 transition-colors">商業效益</a>
+                <a href="#keywords" class="hover:text-blue-600 transition-colors">關鍵字</a>
+                <a href="#scope" class="hover:text-blue-600 transition-colors">服務範疇</a>
+                <a href="#metrics" class="hover:text-blue-600 transition-colors">成功指標</a>
+            </nav>
+
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <!-- Language Switch Button -->
+                <div class="hidden md:flex bg-slate-100/80 rounded-full p-1 border border-slate-200/60">
+                    <button id="lang-tw" class="lang-btn active px-3 py-1 text-[11px] font-bold rounded-full bg-white shadow-sm text-blue-600 transition-all">繁中</button>
+                    <button id="lang-en" class="lang-btn px-3 py-1 text-[11px] font-bold rounded-full text-slate-500 hover:text-slate-800 transition-all">EN</button>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm transition-all hover:-translate-y-0.5" title="切換深淺色模式">
+                    <span class="iconify text-base" id="themeIcon" data-icon="tabler:moon"></span>
+                </button>
+                
+                <!-- Share Button -->
+                <button id="shareBtn" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-[11px] font-bold px-4 py-1.5 rounded-full shadow-sm transition-all uppercase flex items-center gap-2 hover:-translate-y-0.5">
+                    <span class="iconify text-base" data-icon="tabler:share"></span>
+                    Share
+                </button>
+
+                <!-- Contact Button -->
+                <button id="contactBtn" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-black px-6 py-2 rounded-full shadow-lg shadow-blue-200 transition-all uppercase tracking-wider hover:-translate-y-0.5 hover:shadow-xl">
+                    聯繫BSD
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Static Text Array Re-designed) -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center relative px-6 overflow-hidden pt-24">
+        <!-- Abstract Blurs -->
+        <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-200/40 blur-[120px] rounded-full mix-blend-multiply"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-200/40 blur-[120px] rounded-full mix-blend-multiply"></div>
+
+        <div class="max-w-6xl text-center z-10 w-full hero-content">
+            <div class="inline-flex items-center space-x-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-8">
+                <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-600">Next-Gen SEO & GEO Strategic Proposal</span>
+            </div>
+
+            <!-- Redesigned Static Typography Block -->
+            <h1 class="text-5xl md:text-7xl lg:text-[5.5rem] font-black mb-8 tracking-tighter text-slate-900" style="line-height: 1.1;">
+                Design the Future of <br/>
+                <div class="mt-4 md:mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-3 md:gap-x-8">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 hover:scale-105 transition-transform cursor-default text-gradient-animate">Search Results</span>
+                    <span class="text-slate-200 font-light hidden lg:block text-5xl">/</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600 hover:scale-105 transition-transform cursor-default">AI Authority</span>
+                    <span class="text-slate-200 font-light hidden lg:block text-5xl">/</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500 hover:scale-105 transition-transform cursor-default text-gradient-animate">Global Discovery</span>
+                </div>
+            </h1>
+
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-14 font-medium leading-relaxed">
+                今展科技 (Arlitech) 全球搜尋與 AI 權能提升專案。目的不僅優化排名，更致力於讓品牌與產品方案，成為生成式 AI (GEO) 的待選答案。
+            </p>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                <div class="glass-panel px-8 py-5 flex items-center space-x-4 bg-white/90 hover:border-blue-200 transition-colors group cursor-pointer">
+                    <span class="iconify text-4xl text-blue-600 group-hover:scale-110 transition-transform" data-icon="logos:google-icon"></span>
+                    <span class="text-sm font-bold text-slate-800">全球搜尋戰略</span>
+                </div>
+                <div class="glass-panel px-8 py-5 flex items-center space-x-4 bg-white/90 hover:border-slate-300 transition-colors group cursor-pointer">
+                    <span class="iconify text-4xl text-slate-800 group-hover:scale-110 transition-transform" data-icon="simple-icons:openai"></span>
+                    <span class="text-sm font-bold text-slate-800">AI 引用優化佈局</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-50 animate-bounce">
+            <span class="text-[10px] font-bold tracking-widest uppercase mb-2">Scroll</span>
+            <span class="iconify text-xl" data-icon="tabler:arrow-down"></span>
+        </div>
+    </section>
+
+    <!-- Marquee Section (Bright) -->
+    <div class="py-12 bg-white border-y border-slate-100 marquee-wrapper shadow-sm">
+        <div class="marquee-content font-black text-4xl text-slate-200 uppercase italic">
+            <span>Power Inductor</span>
+            <span>·</span>
+            <span class="text-blue-500">TLVR</span>
+            <span>·</span>
+            <span>Vcore</span>
+            <span>·</span>
+            <span class="text-blue-500">TMR Sensor</span>
+            <span>·</span>
+            <span>EMI Inductor</span>
+            <span>·</span>
+            <span class="text-blue-500">Gaming MCU</span>
+            <span>·</span>
+            <span>CDU Controller</span>
+            <span>·</span>
+            <span class="text-blue-500">Class-D Inductor</span>
+            <!-- Duplicate for infinite effect -->
+            <span>Power Inductor</span>
+            <span>·</span>
+            <span class="text-blue-500">TLVR</span>
+            <span>·</span>
+            <span>Vcore</span>
+            <span>·</span>
+            <span class="text-blue-500">TMR Sensor</span>
+            <span>·</span>
+            <span>EMI Inductor</span>
+            <span>·</span>
+            <span class="text-blue-500">Gaming MCU</span>
+            <span>·</span>
+            <span>CDU Controller</span>
+            <span>·</span>
+            <span class="text-blue-500">Class-D Inductor</span>
+        </div>
+    </div>
+
+    <!-- Strategic Benefits -->
+    <section id="benefits" class="py-32 px-6 bg-white relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row items-end justify-between mb-20 gap-8 section-header">
+                <div class="lg:w-2/3">
+                    <h2 class="text-blue-600 text-sm font-bold uppercase tracking-[0.3em] mb-4">Strategic Value</h2>
+                    <h3 class="text-4xl md:text-6xl font-black tracking-tighter text-slate-900 leading-tight">SEO/GEO 為今展帶來的 <br/><span class="text-blue-600">戰略商業效益</span></h3>
+                </div>
+                <div class="lg:w-1/3 text-slate-500 text-sm leading-relaxed border-l-4 border-blue-600 pl-6 font-medium">
+                    在 AI 年代，搜尋不再只是「誘導」點擊，而是「決策媒合層」。確保 RD 工程師在第一時間找到精準規格與適配方案。
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 benefits-grid">
+                <!-- Card 1 -->
+                <div class="benefit-card glass-panel p-10 hover:bg-blue-50/50 transition-all duration-500 group relative overflow-hidden border-transparent hover:border-blue-100">
+                    <div class="sonar-pulse mb-8 w-16 h-16 flex items-center justify-center bg-blue-100 rounded-2xl text-blue-600">
+                        <span class="iconify text-4xl" data-icon="tabler:target-arrow"></span>
+                        <div class="sonar-circle"></div>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-slate-900">精準吸引開發端流量 (RD-Centric)</h4>
+                    <p class="text-slate-600 font-medium leading-relaxed mb-6">工程師搜尋的是「方案」。我們透過技術長文將流量基礎從「泛泛而談」轉為「精準規格導向」。</p>
+                    <div class="text-[10px] font-mono text-blue-600 uppercase tracking-widest font-bold">Search-to-Solution Conversion</div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="benefit-card glass-panel p-10 hover:bg-cyan-50/50 transition-all duration-500 group relative overflow-hidden border-transparent hover:border-cyan-100">
+                    <div class="sonar-pulse mb-8 w-16 h-16 flex items-center justify-center bg-cyan-100 rounded-2xl text-cyan-600">
+                        <span class="iconify text-4xl" data-icon="tabler:cpu"></span>
+                        <div class="sonar-circle"></div>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-slate-900">搶佔 AI 時代「標準答案」地位</h4>
+                    <p class="text-slate-600 font-medium leading-relaxed mb-6">確保今展產品（如 Mini molding or TLVR）被 AI推薦引擎識別為推薦來源，避免在生成式結果中被隱形。</p>
+                    <div class="text-[10px] font-mono text-cyan-600 uppercase tracking-widest font-bold">AI Citation Dominance</div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="benefit-card glass-panel p-10 hover:bg-indigo-50/50 transition-all duration-500 group relative overflow-hidden border-transparent hover:border-indigo-100">
+                    <div class="sonar-pulse mb-8 w-16 h-16 flex items-center justify-center bg-indigo-100 rounded-2xl text-indigo-600">
+                        <span class="iconify text-4xl" data-icon="tabler:users-group"></span>
+                        <div class="sonar-circle"></div>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-slate-900">強化「Modulized組件級支援」品牌溝通</h4>
+                    <p class="text-slate-600 font-medium leading-relaxed mb-6">將服務能力數位化，讓搜尋引擎認證今展不只是零件商，更是客戶的研發夥伴。</p>
+                    <div class="text-[10px] font-mono text-indigo-600 uppercase tracking-widest font-bold">Partner-Centric Presence</div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="benefit-card glass-panel p-10 hover:bg-slate-50 transition-all duration-500 group relative overflow-hidden border-transparent hover:border-slate-200">
+                    <div class="sonar-pulse mb-8 w-16 h-16 flex items-center justify-center bg-slate-200 rounded-2xl text-slate-600">
+                        <span class="iconify text-4xl" data-icon="tabler:world"></span>
+                        <div class="sonar-circle"></div>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-slate-900">降低全球開發與商務開發成本</h4>
+                    <p class="text-slate-600 font-medium leading-relaxed mb-6">24/7 不間斷的數位業務。讓潛在的目標客戶自動發現今展，實現“線下接觸”與“上線溝通”的串聯，減少對實體開發的依賴。</p>
+                    <div class="text-[10px] font-mono text-slate-600 uppercase tracking-widest font-bold">Global Scalability / ROI</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Keywords & Market Mapping Section -->
+    <section id="keywords" class="py-32 bg-slate-50 border-y border-slate-100 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 section-header">
+                <h2 class="text-blue-600 text-sm font-bold uppercase tracking-[0.3em] mb-4">Market Mapping</h2>
+                <h3 class="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 leading-tight">
+                    Target Keywords <br/><span class="text-blue-600 text-3xl md:text-4xl">目標關鍵字</span>
+                </h3>
+                <p class="mt-6 text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
+                    服務商需針對以下細分市場進行優化：<br>
+                    <span class="text-sm text-slate-500 italic font-normal">The vendor must optimize for the following segments:</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Segment A -->
+                <div class="keyword-card glass-panel p-8 bg-white hover:bg-gradient-to-b hover:from-white hover:to-red-50/50 hover:shadow-2xl hover:shadow-red-500/20 hover:-translate-y-2 transition-all duration-500 border-t-4 border-t-red-500 group relative overflow-hidden">
+                    <div class="absolute -right-12 -top-12 w-40 h-40 bg-red-400/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div>
+                            <div class="flex items-center flex-wrap gap-x-3 gap-y-2 mb-1">
+                                <h4 class="font-black text-2xl text-slate-900 flex items-center">PM1 <span class="text-xs ml-3 px-2.5 py-0.5 bg-red-100 text-red-700 border border-red-200 rounded-md font-mono font-bold tracking-wider shadow-sm group-hover:scale-105 group-hover:bg-red-500 group-hover:text-white transition-all duration-300">Segment A</span></h4>
+                                <span class="text-[10px] text-slate-400 font-medium px-2 py-0.5 border border-slate-200 rounded-full bg-slate-50 flex items-center gap-1 shadow-sm"><span class="iconify" data-icon="tabler:edit-circle"></span>暫定 Tentative</span>
+                                <span class="text-[10px] text-amber-700 font-bold px-2 py-0.5 border border-amber-200 rounded-full bg-amber-50 flex items-center gap-1 shadow-sm"><span class="iconify" data-icon="tabler:clock-forward"></span>下一階段執行要務</span>
+                            </div>
+                            <p class="text-red-600 font-bold text-sm mt-1">Conventional Inductors</p>
+                        </div>
+                        <span class="iconify text-4xl text-red-500 opacity-20 group-hover:opacity-100 transition-all duration-500 group-hover:scale-125 group-hover:rotate-12" data-icon="simple-icons:baidu"></span>
+                    </div>
+                    <div class="mb-6 relative z-10 flex flex-col items-start gap-2">
+                        <span class="inline-block bg-red-50 text-red-600 text-[10px] uppercase font-black tracking-widest px-3 py-1.5 rounded border border-red-100 group-hover:bg-red-100 transition-colors">Baidu / 簡體中文</span>
+                        <span class="inline-flex items-center gap-1.5 bg-red-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-md shadow-sm shadow-red-500/20"><span class="iconify" data-icon="tabler:network"></span> 2026首要目標：內地官網瀏覽暢通</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 relative z-10">
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-red-200 hover:!bg-red-500 hover:!text-white hover:!border-red-500 cursor-default shadow-sm group-hover:shadow-md">EMI inductor</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-red-200 hover:!bg-red-500 hover:!text-white hover:!border-red-500 cursor-default shadow-sm group-hover:shadow-md">Class-D inductor</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-red-200 hover:!bg-red-500 hover:!text-white hover:!border-red-500 cursor-default shadow-sm group-hover:shadow-md">汽车电感</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-red-200 hover:!bg-red-500 hover:!text-white hover:!border-red-500 cursor-default shadow-sm group-hover:shadow-md">Power inductor</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-red-200 hover:!bg-red-500 hover:!text-white hover:!border-red-500 cursor-default shadow-sm group-hover:shadow-md">Mini-molding</span>
+                    </div>
+                </div>
+
+                <!-- Segment B -->
+                <div class="keyword-card glass-panel p-8 bg-white hover:bg-gradient-to-b hover:from-white hover:to-blue-50/50 hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-500 border-t-4 border-t-blue-500 group relative overflow-hidden">
+                    <div class="absolute -right-12 -top-12 w-40 h-40 bg-blue-400/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div>
+                            <div class="flex items-center flex-wrap gap-x-3 gap-y-2 mb-1">
+                                <h4 class="font-black text-2xl text-slate-900 flex items-center">BD <span class="text-xs ml-3 px-2.5 py-0.5 bg-blue-100 text-blue-700 border border-blue-200 rounded-md font-mono font-bold tracking-wider shadow-sm group-hover:scale-105 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">Segment B</span></h4>
+                                <span class="text-[10px] text-slate-400 font-medium px-2 py-0.5 border border-slate-200 rounded-full bg-slate-50 flex items-center gap-1 shadow-sm"><span class="iconify" data-icon="tabler:edit-circle"></span>暫定 Tentative</span>
+                            </div>
+                            <p class="text-blue-600 font-bold text-sm mt-1">High-Power Inductors</p>
+                        </div>
+                        <span class="iconify text-4xl text-blue-500 opacity-20 group-hover:opacity-100 transition-all duration-500 group-hover:scale-125 group-hover:-rotate-12" data-icon="logos:google-icon"></span>
+                    </div>
+                    <div class="mb-6 relative z-10">
+                        <span class="inline-block bg-blue-50 text-blue-600 text-[10px] uppercase font-black tracking-widest px-3 py-1.5 rounded border border-blue-100 group-hover:bg-blue-100 transition-colors">Google TW / 繁體中文</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 relative z-10">
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-blue-200 hover:!bg-blue-600 hover:!text-white hover:!border-blue-600 cursor-default shadow-sm group-hover:shadow-md">Ai server inductor</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-blue-200 hover:!bg-blue-600 hover:!text-white hover:!border-blue-600 cursor-default shadow-sm group-hover:shadow-md">TLVR</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-blue-200 hover:!bg-blue-600 hover:!text-white hover:!border-blue-600 cursor-default shadow-sm group-hover:shadow-md">Vcore 電感</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-blue-200 hover:!bg-blue-600 hover:!text-white hover:!border-blue-600 cursor-default shadow-sm group-hover:shadow-md">Dual SMD Power Inductor</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-blue-200 hover:!bg-blue-600 hover:!text-white hover:!border-blue-600 cursor-default shadow-sm group-hover:shadow-md">銅磁共燒 / 銅鐵共燒</span>
+                    </div>
+                </div>
+
+                <!-- Segment C -->
+                <div class="keyword-card glass-panel p-8 bg-white hover:bg-gradient-to-b hover:from-white hover:to-indigo-50/50 hover:shadow-2xl hover:shadow-indigo-500/20 hover:-translate-y-2 transition-all duration-500 border-t-4 border-t-indigo-500 group relative overflow-hidden">
+                    <div class="absolute -right-12 -top-12 w-40 h-40 bg-indigo-400/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div>
+                            <div class="flex items-center flex-wrap gap-x-3 gap-y-2 mb-1">
+                                <h4 class="font-black text-2xl text-slate-900 flex items-center">PM3 <span class="text-xs ml-3 px-2.5 py-0.5 bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-md font-mono font-bold tracking-wider shadow-sm group-hover:scale-105 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">Segment C</span></h4>
+                                <span class="text-[10px] text-slate-400 font-medium px-2 py-0.5 border border-slate-200 rounded-full bg-slate-50 flex items-center gap-1 shadow-sm"><span class="iconify" data-icon="tabler:edit-circle"></span>暫定 Tentative</span>
+                            </div>
+                            <p class="text-indigo-600 font-bold text-sm mt-1">Semiconductor Portfolio</p>
+                        </div>
+                        <span class="iconify text-4xl text-indigo-500 opacity-20 group-hover:opacity-100 transition-all duration-500 group-hover:scale-125 group-hover:rotate-12" data-icon="tabler:world"></span>
+                    </div>
+                    <div class="mb-6 relative z-10">
+                        <span class="inline-block bg-indigo-50 text-indigo-600 text-[10px] uppercase font-black tracking-widest px-3 py-1.5 rounded border border-indigo-100 group-hover:bg-indigo-100 transition-colors">Google Global / English</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 relative z-10">
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-indigo-200 hover:!bg-indigo-600 hover:!text-white hover:!border-indigo-600 cursor-default shadow-sm group-hover:shadow-md">Gaming MCU</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-indigo-200 hover:!bg-indigo-600 hover:!text-white hover:!border-indigo-600 cursor-default shadow-sm group-hover:shadow-md">Hall-effect HID</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-indigo-200 hover:!bg-indigo-600 hover:!text-white hover:!border-indigo-600 cursor-default shadow-sm group-hover:shadow-md">TMR sensor</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-indigo-200 hover:!bg-indigo-600 hover:!text-white hover:!border-indigo-600 cursor-default shadow-sm group-hover:shadow-md">CDU controller</span>
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-700 rounded text-sm font-medium transition-all duration-300 group-hover:bg-white group-hover:border-indigo-200 hover:!bg-indigo-600 hover:!text-white hover:!border-indigo-600 cursor-default shadow-sm group-hover:shadow-md">GaAs Asic</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stakeholders (Bright) -->
+    <section id="stakeholders" class="py-32 bg-white border-b border-slate-100">
+        <div class="max-w-5xl mx-auto px-6">
+            <h3 class="text-3xl font-black mb-16 text-center tracking-tighter italic uppercase text-slate-800 section-header">Operation Stakeholders</h3>
+            <div class="space-y-6">
+                <!-- Stakeholder Row -->
+                <div class="glass-panel p-6 flex flex-col md:flex-row items-center gap-6 stagger-row bg-slate-50/50 hover:bg-white transition-colors border-transparent hover:border-slate-200">
+                    <div class="bg-blue-600 text-white px-4 py-2 rounded font-bold text-xs shadow-md shadow-blue-200">PM / FAE</div>
+                    <div class="flex-1">
+                        <h5 class="font-bold text-lg mb-1 text-slate-900">產品與技術支援部</h5>
+                        <p class="text-slate-500 text-sm font-medium">負責技術準確性審核與市場需求回饋，主導Pre-Sales售前方案策略。</p>
+                    </div>
+                    <div class="text-[10px] text-slate-400 font-mono italic">Content Logic / Spec Verifier</div>
+                </div>
+                <!-- Stakeholder Row -->
+                <div class="glass-panel p-6 flex flex-col md:flex-row items-center gap-6 stagger-row bg-slate-50/50 hover:bg-white transition-colors border-transparent hover:border-slate-200">
+                    <div class="bg-indigo-600 text-white px-4 py-2 rounded font-bold text-xs shadow-md shadow-indigo-200">MIS / IT</div>
+                    <div class="flex-1">
+                        <h5 class="font-bold text-lg mb-1 text-slate-900">資訊部</h5>
+                        <p class="text-slate-500 text-sm font-medium">與服務供應商協作落實所有必要之技術微調與底層優化。</p>
+                    </div>
+                    <div class="text-[10px] text-slate-400 font-mono italic">Tech Implementation</div>
+                </div>
+                <!-- Stakeholder Row -->
+                <div class="glass-panel p-6 flex flex-col md:flex-row items-center gap-6 stagger-row bg-slate-50/50 hover:bg-white transition-colors border-transparent hover:border-slate-200">
+                    <div class="bg-slate-700 text-white px-4 py-2 rounded font-bold text-xs shadow-md shadow-slate-300">3rd Party</div>
+                    <div class="flex-1">
+                        <h5 class="font-bold text-lg mb-1 text-slate-900">外部SEO供應商</h5>
+                        <p class="text-slate-500 text-sm font-medium">多平台技術執行、排名與引用追蹤，確保 KPI 達成。</p>
+                    </div>
+                    <div class="text-[10px] text-slate-400 font-mono italic">Strategic Executor</div>
+                </div>
+                <!-- Stakeholder Row -->
+                <div class="glass-panel p-6 flex flex-col md:flex-row items-center gap-6 stagger-row bg-slate-50/50 hover:bg-white transition-colors border-transparent hover:border-slate-200">
+                    <div class="bg-blue-900 text-white px-4 py-2 rounded font-bold text-xs shadow-md shadow-slate-300">BSD / MKT</div>
+                    <div class="flex-1">
+                        <h5 class="font-bold text-lg mb-1 text-slate-900">BSD行銷部</h5>
+                        <p class="text-slate-500 text-sm font-medium">專案主導與品質監督，確保品牌一致性與市場聲量。</p>
+                    </div>
+                    <div class="text-[10px] text-slate-400 font-mono italic">Project Owner</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scope Section (Bright Table) -->
+    <section id="scope" class="py-32 px-6 bg-slate-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20 section-header">
+                <h2 class="text-blue-600 text-sm font-bold uppercase tracking-[0.3em] mb-4">Implementation</h2>
+                <h3 class="text-4xl md:text-5xl font-black tracking-tighter text-slate-900">
+                    Service Scope <span class="text-slate-300 font-light">/ 執行範疇</span>
+                </h3>
+            </div>
+
+            <div class="glass-panel overflow-hidden border border-slate-200 shadow-xl bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-3 bg-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-slate-200">
+                    <div class="p-6">Modular Scope / 範疇</div>
+                    <div class="p-6">Technical Execution / 執行細節</div>
+                    <div class="p-6">Target Engine / 目標引擎</div>
+                </div>
+                
+                <div class="divide-y divide-slate-100">
+                    <!-- Scope 1 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 hover:bg-blue-50/30 transition-colors group">
+                        <div class="p-8">
+                            <h6 class="text-xl font-bold text-blue-600 mb-2">Technical Infrastructure</h6>
+                            <span class="text-xs text-slate-400 font-medium">技術基礎建設</span>
+                        </div>
+                        <div class="p-8 text-slate-600 font-medium leading-relaxed">
+                            針對 Google 與百度進行底層稽核；部署 JSON-LD 結構化數據標籤與文心一言優化標記。
+                            
+                            <!-- New View Details Button -->
+                            <button onclick="openModal('techModal')" class="mt-5 flex items-center justify-center w-fit gap-2 text-[11px] font-bold text-blue-600 bg-blue-50 border border-blue-100 hover:bg-blue-600 hover:text-white px-4 py-2 rounded-full transition-all duration-300 shadow-sm hover:shadow-md">
+                                <span class="iconify text-sm" data-icon="tabler:zoom-in-area"></span> View Details (詳細規範)
+                            </button>
+                        </div>
+                        <div class="p-8 flex items-center flex-wrap gap-2">
+                            <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded text-[10px] font-bold border border-blue-100">Google Global</span>
+                            <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded text-[10px] font-bold border border-blue-100">Baidu <span class="text-amber-600 border-l border-blue-200 ml-1 pl-1">下一階段執行</span></span>
+                        </div>
+                    </div>
+                    <!-- Scope 2 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 hover:bg-indigo-50/30 transition-colors group">
+                        <div class="p-8">
+                            <h6 class="text-xl font-bold text-indigo-600 mb-2">Multi-Lingual Content</h6>
+                            <span class="text-xs text-slate-400 font-medium">多語系內容工程</span>
+                        </div>
+                        <div class="p-8 text-slate-600 font-medium leading-relaxed">
+                            產出具備「解決方案意圖」的簡/繁/英技術白皮書或文章，滿足各區域工程師之選型需求。
+                        </div>
+                        <div class="p-8 flex items-center flex-wrap gap-2">
+                            <span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded text-[10px] font-bold border border-indigo-100 uppercase">All Segments</span>
+                        </div>
+                    </div>
+                    <!-- Scope 3 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 hover:bg-slate-50/50 transition-colors group">
+                        <div class="p-8">
+                            <h6 class="text-xl font-bold text-slate-800 mb-2">Authority & Citations (TBD)</h6>
+                            <span class="text-xs text-slate-400 font-medium">引用佈局(TBD)</span>
+                        </div>
+                        <div class="p-8 text-slate-600 font-medium leading-relaxed">
+                            舉例：在電子零件目錄、通路商平台建立技術引述；監控 AI 模組對今展品牌之能見度。
+                            
+                            <!-- Authority View Details Button -->
+                            <button onclick="openModal('authorityModal')" class="mt-5 flex items-center justify-center w-fit gap-2 text-[11px] font-bold text-slate-700 bg-slate-100 border border-slate-200 hover:bg-slate-700 hover:text-white px-4 py-2 rounded-full transition-all duration-300 shadow-sm hover:shadow-md">
+                                <span class="iconify text-sm" data-icon="tabler:zoom-in-area"></span> View Details (詳細規範)
+                            </button>
+                        </div>
+                        <div class="p-8 flex items-center flex-wrap gap-2">
+                            <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-[10px] font-bold border border-slate-200">LLM Visibility</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Metrics & Deliverables Section -->
+    <section id="metrics" class="py-32 bg-white border-t border-slate-100 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 section-header">
+                <h2 class="text-blue-600 text-sm font-bold uppercase tracking-[0.3em] mb-4">Performance Evaluation</h2>
+                <h3 class="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 leading-tight">
+                    Success Metrics & Deliverables <br/><span class="text-blue-600 text-3xl md:text-4xl">成功指標與交付成果</span>
+                </h3>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- KPIs Column -->
+                <div class="space-y-6">
+                    <h4 class="text-2xl font-black text-slate-900 border-b-2 border-slate-100 pb-4 mb-8">1. 核心指標 (KPIs)</h4>
+                    
+                    <!-- Baidu KPI -->
+                    <div class="metric-card glass-panel p-6 bg-slate-50/50 hover:bg-white transition-colors border-transparent hover:border-slate-200 flex items-start gap-4">
+                        <div class="bg-red-50 p-3 rounded-lg text-red-500 mt-1">
+                            <span class="iconify text-2xl" data-icon="simple-icons:baidu"></span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <h5 class="font-bold text-lg text-slate-800">Baidu Metrics (百度指標)</h5>
+                                <span class="text-[10px] bg-amber-100 text-amber-700 border border-amber-200 px-2 py-0.5 rounded font-bold tracking-wider">下一階段執行要務</span>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed font-medium mb-3">提升傳統電感 (Conventional Inductors) 在百度搜尋的品牌能見度，並提高文心一言 (ERNIE Bot) 的技術引用頻率。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-[10px] bg-red-500 border border-red-600 text-white px-2 py-1 rounded font-bold tracking-wider">首要：內地官網瀏覽暢通</span>
+                                <span class="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded font-bold uppercase tracking-wider">Search Visibility</span>
+                                <span class="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded font-bold uppercase tracking-wider">ERNIE Citation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google KPI -->
+                    <div class="metric-card glass-panel p-6 bg-slate-50/50 hover:bg-white transition-colors border-transparent hover:border-slate-200 flex items-start gap-4">
+                        <div class="bg-blue-50 p-3 rounded-lg text-blue-600 mt-1">
+                            <span class="iconify text-2xl" data-icon="logos:google-icon"></span>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-lg text-slate-800 mb-1">Google Metrics (Google 指標)</h5>
+                            <p class="text-sm text-slate-600 leading-relaxed font-medium mb-3">高功率組件 (High-Power Components) 於台灣 Google 繁中搜尋、半導體解決方案於全球/台灣 Google 英文搜尋進入第一頁 (Page 1)。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded font-bold uppercase tracking-wider">Page 1 Ranking</span>
+                                <span class="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded font-bold uppercase tracking-wider">TW & Global</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overall Business Goals (New 3rd Card from Image) -->
+                    <div class="metric-card glass-panel p-6 bg-slate-900 hover:bg-slate-800 transition-colors border-transparent shadow-xl flex items-start gap-4">
+                        <div class="bg-blue-500/20 p-3 rounded-lg text-blue-400 mt-1">
+                            <span class="iconify text-2xl" data-icon="tabler:target-arrow"></span>
+                        </div>
+                        <div class="w-full">
+                            <h5 class="font-bold text-lg text-white mb-6">Overall Goals (全域商業目標)</h5>
+                            <div class="grid grid-cols-2 gap-y-6 gap-x-4">
+                                <div>
+                                    <div class="text-blue-400 font-black text-3xl mb-1">> 30%</div>
+                                    <div class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Traffic Growth</div>
+                                </div>
+                                <div>
+                                    <div class="text-white font-black text-3xl mb-1">Page 1</div>
+                                    <div class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Ranking Target</div>
+                                </div>
+                                <div>
+                                    <div class="text-cyan-400 font-black text-3xl mb-1">99%</div>
+                                    <div class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Spec Accuracy</div>
+                                </div>
+                                <div>
+                                    <div class="text-blue-300 font-black text-3xl mb-1">Global</div>
+                                    <div class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Coverage</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GEO KPI -->
+                    <div class="metric-card glass-panel p-6 bg-slate-50/50 hover:bg-white transition-colors border-transparent hover:border-slate-200 flex items-start gap-4">
+                        <div class="bg-indigo-50 p-3 rounded-lg text-indigo-600 mt-1">
+                            <span class="iconify text-2xl" data-icon="tabler:brain"></span>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-lg text-slate-800 mb-1">GEO Metrics (AI 搜尋指標)</h5>
+                            <p class="text-sm text-slate-600 leading-relaxed font-medium mb-3">極大化品牌在LLM 模型 (ChatGPT, Perplexity, Gemini) 中的解答佔有率 (Share of Answer)，成為 AI 推薦的首選規格標準。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded font-bold uppercase tracking-wider">Share of Answer (SoA)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deliverables Column -->
+                <div>
+                    <h4 class="text-2xl font-black text-slate-900 border-b-2 border-slate-100 pb-4 mb-8">2. 交付成果清單 (Deliverables)</h4>
+                    <div class="glass-panel p-8 bg-blue-600 text-white relative overflow-hidden h-full shadow-2xl shadow-blue-900/20">
+                        <div class="absolute -right-10 -bottom-10 opacity-10">
+                            <span class="iconify text-[200px]" data-icon="tabler:file-analytics"></span>
+                        </div>
+                        
+                        <div class="relative z-10 space-y-8">
+                            <div class="metric-card">
+                                <h6 class="text-blue-200 font-bold text-xs uppercase tracking-widest mb-2 border-b border-blue-500/50 pb-2 inline-block">Monthly / 每月產出</h6>
+                                <ul class="space-y-6 mt-6">
+                                    <li class="flex items-start gap-4">
+                                        <div class="bg-blue-500/50 p-2 rounded shrink-0">
+                                            <span class="iconify text-xl text-white" data-icon="tabler:chart-bar"></span>
+                                        </div>
+                                        <div>
+                                            <strong class="block text-lg mb-1">跨平台排名與流量分析報告</strong>
+                                            <span class="text-sm text-blue-100 font-medium leading-relaxed">Platform-specific ranking reports (Baidu vs. Google) 包含排名變化與流量導入轉換分析。</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-4">
+                                        <div class="bg-blue-500/50 p-2 rounded shrink-0">
+                                            <span class="iconify text-xl text-white" data-icon="tabler:language"></span>
+                                        </div>
+                                        <div>
+                                            <strong class="block text-lg mb-1">三語系技術內容建置紀錄</strong>
+                                            <span class="text-sm text-blue-100 font-medium leading-relaxed">Technical content logs for 3 languages (繁中、簡中、英文)，包含部署於各平台與技術目錄的完整紀錄。</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-4">
+                                        <div class="bg-blue-500/50 p-2 rounded shrink-0">
+                                            <span class="iconify text-xl text-white" data-icon="tabler:message-chatbot"></span>
+                                        </div>
+                                        <div>
+                                            <strong class="block text-lg mb-1">AI 引擎引述聲量追蹤</strong>
+                                            <span class="text-sm text-blue-100 font-medium leading-relaxed">定期檢測重點產品 (如目標關鍵字組產品) 在 ChatGPT、Perplexity、Google/Gemini 等工具中的推薦權重與品牌提及率。</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-blue-500/10 blur-[100px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 z-10 relative">
+            <div class="max-w-md">
+                <div class="flex items-center space-x-4 mb-6">
+                    <img src="https://upload.cc/i1/2026/01/29/BauOeN.png" alt="Arlitech CIS Logo" class="h-12 w-auto brightness-0 invert">
+                    <span class="font-black uppercase tracking-tighter">Arlitech 2026</span>
+                </div>
+                <p class="text-slate-400 text-sm font-medium leading-relaxed">
+                    本文件屬今展內部溝通文件。旨在建立今展科技於 AI 世代的搜尋佔有率，確保數位流量基礎與全球市場能見度同步增長。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 md:gap-16">
+                <div class="text-center md:text-left group cursor-default">
+                    <div class="text-blue-400 font-black text-3xl mb-1 group-hover:text-white transition-colors">> 30%</div>
+                    <div class="text-slate-500 text-[10px] uppercase font-black tracking-widest">Traffic Growth</div>
+                </div>
+                <div class="text-center md:text-left group cursor-default">
+                    <div class="text-white font-black text-3xl mb-1 group-hover:text-blue-400 transition-colors">Page 1</div>
+                    <div class="text-slate-500 text-[10px] uppercase font-black tracking-widest">Ranking Target</div>
+                </div>
+                <div class="text-center md:text-left group cursor-default">
+                    <div class="text-cyan-400 font-black text-3xl mb-1 group-hover:text-white transition-colors">99%</div>
+                    <div class="text-slate-500 text-[10px] uppercase font-black tracking-widest">Spec Accuracy</div>
+                </div>
+                <div class="text-center md:text-left group cursor-default">
+                    <div class="text-blue-300 font-black text-3xl mb-1 group-hover:text-white transition-colors">Global</div>
+                    <div class="text-slate-500 text-[10px] uppercase font-black tracking-widest">Coverage</div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-slate-800 text-[9px] text-slate-500 font-mono flex flex-col md:flex-row justify-between items-center gap-4 uppercase relative z-10">
+            <span>Confidential Project ID: 2026-ARLI-SEO-GEO</span>
+            <span>Ref: RFP_Bilingual_V2.5_StaticHero</span>
+        </div>
+    </footer>
+
+    <!-- 1. Technical Scope Detail Modal -->
+    <div id="techModal" class="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none p-4 md:p-6">
+        <!-- Backdrop -->
+        <div class="modal-backdrop absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300" onclick="closeModal('techModal')"></div>
+        
+        <!-- Modal Content -->
+        <div class="modal-content relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden opacity-0 scale-95 translate-y-4 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <!-- Header -->
+            <div class="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div>
+                    <div class="text-[10px] font-bold uppercase tracking-widest text-blue-600 mb-1">Technical Execution Details</div>
+                    <h3 class="text-2xl font-black text-slate-900">技術基礎建設 (Infrastructure)</h3>
+                </div>
+                <button onclick="closeModal('techModal')" class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors shadow-sm">
+                    <span class="iconify text-xl" data-icon="tabler:x"></span>
+                </button>
+            </div>
+            
+            <!-- Body Content -->
+            <div class="p-6 md:p-8 overflow-y-auto custom-scrollbar">
+                <div class="space-y-8">
+                    <!-- Item 1 -->
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-3 border-l-4 border-blue-500 pl-3">
+                            <span class="iconify text-blue-500 text-xl" data-icon="tabler:search"></span> 技術 SEO 稽核 – Google 與百度
+                        </h4>
+                        <ul class="space-y-3 pl-5">
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-blue-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                檢查抓取／索引（robots.txt、網站地圖、canonical、狀態碼）。
+                            </li>
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-blue-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                確認搜尋引擎能順利找到並收錄所有重要頁面，優化網站架構、內部連結、Core Web Vitals 與行動相容性。
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-3 border-l-4 border-indigo-500 pl-3">
+                            <span class="iconify text-indigo-500 text-xl" data-icon="tabler:code-asterisk"></span> 結構化資料 JSON‑LD 設定
+                        </h4>
+                        <ul class="space-y-3 pl-5">
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-indigo-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                正確規劃並佈署 Schema.org JSON‑LD（Organization、WebSite、Product、FAQ）。
+                            </li>
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-indigo-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                透過 Google Search Console 與百度測試工具驗證標記，確認搜尋引擎能正確讀取與使用。
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-3 border-l-4 border-red-500 pl-3">
+                            <span class="iconify text-red-500 text-xl" data-icon="simple-icons:baidu"></span> 百度與中國生態
+                            <span class="ml-2 text-xs bg-amber-100 text-amber-700 border border-amber-200 px-2 py-0.5 rounded font-bold shadow-sm">下一階段執行要務</span>
+                        </h4>
+                        <ul class="space-y-3 pl-5">
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-red-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                依 Baiduspider 特性調整 HTML／標記並強化在地 SEO 訊號。
+                            </li>
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-red-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                使用百度站長 (Baidu Webmaster Tools) 平台提送網站地圖並監控頁面被發現與收錄的狀況。
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-3 border-l-4 border-teal-500 pl-3">
+                            <span class="iconify text-teal-500 text-xl" data-icon="tabler:chart-line"></span> 監控與調校
+                        </h4>
+                        <ul class="space-y-3 pl-5">
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-teal-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                建立 KPI（收錄頁數、曝光、點擊數、速度分數），定期檢視追。
+                            </li>
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-teal-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                上線後複檢並針對關鍵問題滾動優化。
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal('techModal')" class="px-8 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-full hover:bg-blue-600 transition-colors shadow-lg shadow-slate-900/20 hover:shadow-blue-600/30 hover:-translate-y-0.5">
+                    了解 (Got it)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Authority & Citations Detail Modal -->
+    <div id="authorityModal" class="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none p-4 md:p-6">
+        <!-- Backdrop -->
+        <div class="modal-backdrop absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300" onclick="closeModal('authorityModal')"></div>
+        
+        <!-- Modal Content -->
+        <div class="modal-content relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden opacity-0 scale-95 translate-y-4 transition-all duration-300 flex flex-col max-h-[90vh]">
+            <!-- Header -->
+            <div class="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div>
+                    <div class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1">Technical Execution Details</div>
+                    <h3 class="text-2xl font-black text-slate-900">引用佈局 (Authority & Citations)</h3>
+                </div>
+                <button onclick="closeModal('authorityModal')" class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors shadow-sm">
+                    <span class="iconify text-xl" data-icon="tabler:x"></span>
+                </button>
+            </div>
+            
+            <!-- Body Content -->
+            <div class="p-6 md:p-8 overflow-y-auto custom-scrollbar">
+                <div class="space-y-8">
+                    <!-- Item 1 -->
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-3 border-l-4 border-indigo-500 pl-3">
+                            <span class="iconify text-indigo-500 text-xl" data-icon="tabler:map-pin"></span> 權威訊號佈局位置 (Where)
+                        </h4>
+                        <ul class="space-y-3 pl-5">
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-indigo-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                明確規劃要「在哪裡」幫您種下權威訊號，包含：各種專業電子零件目錄、通路商平台、以及高權重第三方技術網站。
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-3 border-l-4 border-blue-500 pl-3">
+                            <span class="iconify text-blue-500 text-xl" data-icon="tabler:file-check"></span> 實體產出成果 (Deliverables)
+                        </h4>
+                        <ul class="space-y-3 pl-5">
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-blue-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                會「留下什麼實體成果」供檢驗？包含：建立完成的各大平台品牌 / 產品頁面連結、佈局清單統整，以及完整的執行進度報告。
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-3 border-l-4 border-teal-500 pl-3">
+                            <span class="iconify text-teal-500 text-xl" data-icon="tabler:brain"></span> AI 搜尋存在感量化 (Measurement)
+                        </h4>
+                        <ul class="space-y-3 pl-5">
+                            <li class="flex items-start gap-3 text-sm text-slate-600 leading-relaxed font-medium">
+                                <span class="iconify text-teal-400 mt-1 shrink-0" data-icon="tabler:point-filled"></span>
+                                解決「怎麼量化 AI 搜尋中的品牌存在感」問題，透過客觀數據追蹤 LLM (如 ChatGPT, Perplexity) 等生成式引擎對今展的推薦佔有率。
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal('authorityModal')" class="px-8 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-full hover:bg-slate-700 transition-colors shadow-lg shadow-slate-900/20 hover:shadow-slate-700/30 hover:-translate-y-0.5">
+                    了解 (Got it)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Custom Toast Notification -->
+    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none z-[9999] flex items-center gap-3 transition-all duration-300 translate-y-4">
+        <span id="toastIcon" class="iconify text-blue-400 text-xl" data-icon="tabler:info-circle"></span>
+        <span id="toastMessage" class="text-sm font-medium tracking-wide">訊息提示</span>
+    </div>
+
+    <!-- JS Scripts -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Flashlight effect
+        const flashlight = document.getElementById('flashlight');
+        document.addEventListener('mousemove', (e) => {
+            if (flashlight.style.display === 'none') flashlight.style.display = 'block';
+            gsap.to(flashlight, {
+                duration: 0.1,
+                background: `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(37, 99, 235, 0.08) 0%, transparent 40%)`
+            });
+        });
+
+        // Hero Content Fade In
+        gsap.from('.hero-content', {
+            opacity: 0,
+            y: 30,
+            duration: 1.5,
+            ease: "power3.out",
+            delay: 0.2
+        });
+
+        // Sonar Animation
+        anime({
+            targets: '.sonar-circle',
+            scale: [1, 2],
+            opacity: [0.6, 0],
+            duration: 2500,
+            easing: 'easeOutExpo',
+            loop: true
+        });
+
+        // Section Headers
+        gsap.utils.toArray('.section-header').forEach((header) => {
+            gsap.from(header, {
+                scrollTrigger: {
+                    trigger: header,
+                    start: "top bottom-=100"
+                },
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Cards Staggered Animation
+        gsap.utils.toArray('.benefit-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top bottom-=50"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                delay: i * 0.1,
+                ease: "power3.out"
+            });
+        });
+
+        gsap.utils.toArray('.stagger-row').forEach((row, i) => {
+            gsap.from(row, {
+                scrollTrigger: {
+                    trigger: row,
+                    start: "top bottom-=50"
+                },
+                opacity: 0,
+                x: -30,
+                duration: 0.8,
+                delay: i * 0.1
+            });
+        });
+
+        gsap.utils.toArray('.keyword-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top bottom-=50"
+                },
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                delay: i * 0.15,
+                ease: "power2.out"
+            });
+        });
+
+        gsap.utils.toArray('.metric-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top bottom-=50"
+                },
+                opacity: 0,
+                x: -20,
+                duration: 0.6,
+                delay: i * 0.1,
+                ease: "power2.out"
+            });
+        });
+        
+        // Header Hide/Show on Scroll
+        ScrollTrigger.create({
+            start: "top -50",
+            onUpdate: (self) => {
+                const header = document.getElementById('main-header');
+                if (self.direction === 1) {
+                    gsap.to(header, { yPercent: -100, duration: 0.4, ease: "power2.out" });
+                } else {
+                    gsap.to(header, { yPercent: 0, duration: 0.4, ease: "power2.out" });
+                }
+            }
+        });
+
+        // Universal Modal Logic
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const backdrop = modal.querySelector('.modal-backdrop');
+            const content = modal.querySelector('.modal-content');
+            
+            modal.classList.remove('pointer-events-none');
+            
+            requestAnimationFrame(() => {
+                backdrop.classList.remove('opacity-0');
+                content.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
+            });
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const backdrop = modal.querySelector('.modal-backdrop');
+            const content = modal.querySelector('.modal-content');
+            
+            backdrop.classList.add('opacity-0');
+            content.classList.add('opacity-0', 'scale-95', 'translate-y-4');
+            
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // --- Dynamic Toast Notification System ---
+        let toastTimeout;
+        function showToast(message, icon = 'tabler:check', iconColor = 'text-green-400') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            clearTimeout(toastTimeout);
+            
+            toastMsg.textContent = message;
+            toastIcon.setAttribute('data-icon', icon);
+            toastIcon.className = `iconify text-xl ${iconColor}`;
+            
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-4');
+            }, 3000);
+        }
+
+        // --- Action Buttons Logic ---
+        
+        // Share Functionality (Safe for iFrame)
+        const shareBtn = document.getElementById('shareBtn');
+        shareBtn.addEventListener('click', () => {
+            const textArea = document.createElement("textarea");
+            textArea.value = window.location.href;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('連結已複製！ (Link copied to clipboard!)', 'tabler:link', 'text-green-400');
+            } catch (err) {
+                console.error('Copy failed', err);
+                showToast('複製失敗，請手動複製網址。', 'tabler:alert-triangle', 'text-red-400');
+            }
+            
+            document.body.removeChild(textArea);
+        });
+
+        // Contact Button
+        const contactBtn = document.getElementById('contactBtn');
+        contactBtn.addEventListener('click', () => {
+            showToast('正在導向聯繫表單... (Redirecting to contact form)', 'tabler:mail-forward', 'text-blue-400');
+            // Here you can add logic to open a mailto link or another modal:
+            // window.location.href = "mailto:marketing@arlitech.com.tw";
+        });
+
+        // Language Switch Logic
+        const langTwBtn = document.getElementById('lang-tw');
+        const langEnBtn = document.getElementById('lang-en');
+        
+        function updateLangUI(activeBtn, inactiveBtn) {
+            // Set Active Styles
+            activeBtn.classList.remove('text-slate-500', 'hover:text-slate-800');
+            activeBtn.classList.add('bg-white', 'shadow-sm', 'text-blue-600');
+            
+            // Set Inactive Styles
+            inactiveBtn.classList.remove('bg-white', 'shadow-sm', 'text-blue-600');
+            inactiveBtn.classList.add('text-slate-500', 'hover:text-slate-800');
+        }
+
+        langTwBtn.addEventListener('click', () => {
+            if(!langTwBtn.classList.contains('bg-white')) {
+                updateLangUI(langTwBtn, langEnBtn);
+                showToast('已切換至繁體中文', 'tabler:language', 'text-blue-400');
+            }
+        });
+
+        langEnBtn.addEventListener('click', () => {
+             if(!langEnBtn.classList.contains('bg-white')) {
+                updateLangUI(langEnBtn, langTwBtn);
+                showToast('Switched to English', 'tabler:language', 'text-blue-400');
+            }
+        });
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        // Initialize Theme based on preference or system settings
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeIcon.setAttribute('data-icon', 'tabler:sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeIcon.setAttribute('data-icon', 'tabler:moon');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+                themeIcon.setAttribute('data-icon', 'tabler:sun');
+                
+                // Icon Animation
+                gsap.fromTo(themeIcon, { rotation: -90, opacity: 0 }, { rotation: 0, opacity: 1, duration: 0.5, ease: "back.out(1.5)" });
+            } else {
+                localStorage.theme = 'light';
+                themeIcon.setAttribute('data-icon', 'tabler:moon');
+                
+                // Icon Animation
+                gsap.fromTo(themeIcon, { rotation: 90, opacity: 0 }, { rotation: 0, opacity: 1, duration: 0.5, ease: "back.out(1.5)" });
+            }
+        });
+    </script>
+</body>
+</html>
